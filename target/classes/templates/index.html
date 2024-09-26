@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Plantilla</title>
+	<link rel="stylesheet" href="styles/styles.css">
+	<link rel="stylesheet" href="styles/admin.css">
+</head>
+
+<body>
+	<header>
+		<div>
+			<h1>Reparacion de ordenadores</h1>
+			<a th:href="@{/cerrarSesion}">Cerrar Sesion</a>
+
+		</div>
+	</header>
+
+	<main>
+		<aside>
+			<nav>
+				<ul id="menu">
+					<li class="elem_menu">
+						<a th:href="@{/principal}">Ordenadores</a>
+					</li>
+					<li class="elem_menu">
+						<a th:href="@{/marcas}">Marcas</a>
+					</li>
+					<li class="elem_menu">
+						<a th:href="@{/modelos}">Modelos</a>
+					</li>
+					<li class="elem_menu">
+						<a th:href="@{/mantenimiento}">Mantenimiento</a>
+					</li>
+				</ul>
+			</nav>
+		</aside>
+
+		<section>
+			<!--			<div> mensaje de error</div>-->
+
+			<form method="post" th:action="@{/adminGuardarOrdenador}" th:object="${obj_ordenador}">
+
+				<label>Numero de serie: </label>
+				<input type="text" th:field="*{numeroSerie}" />
+				<br />
+
+				<label>Modelo: </label>
+				<select th:field="*{modelo.id}">
+					<option th:each="elem :${atr_lista_modelos}" th:text="${elem.modelo}" th:value="${elem.id}">
+					</option>
+				</select>
+
+				<br />
+				<label>Marca: </label>
+				<select th:field="*{marca.id}">
+					<option th:each="elem :${atr_lista_marcas}" th:text="${elem.marca}" th:value="${elem.id}">
+					</option>
+				</select>
+				<br />
+
+				<label>Anotaciones: </label>
+				<input type="text" th:field="*{anotaciones}" />
+				<br />
+
+				<label>Capacidad: </label>
+				<input type="text" th:field="*{capacidad}" />
+				<br />
+
+				<label>RAM: </label>
+				<input type="text" th:field="*{ram}" />
+				<br />
+
+				<br />
+
+				<input type="submit" value="Agregar ordenador" />
+
+			</form>
+		</section>
+
+
+		<section>
+
+			<table border="1">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Numero de serie</th>
+						<th>Modelo</th>
+						<th>Marca</th>
+						<th>Anotaciones</th>
+						<th>Capacidad</th>
+						<th>RAM</th>
+						<th>Opciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="elem : ${atr_lista_ordenadores}">
+						<td th:text="${elem.id}">Id</td>
+						<td th:text="${elem.numeroSerie}">Numero de serie</td>
+						<td th:text="${elem.modelo.modelo}">Modelo</td>
+						<td th:text="${elem.marca.marca}">Marca</td>
+						<td th:text="${elem.anotaciones}">Anotaciones</td>
+						<td th:text="${elem.capacidad}">Capacidad</td>
+						<td th:text="${elem.ram}">RAM</td>
+						<td>
+							<a th:href="@{/adminBorrarOrdenador(id=${elem.id})}">Borrar</a>
+							<a th:href="@{/adminFrmModificarOrdenador(id=${elem.id})}">Modificar</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+
+	</main>
+
+
+
+</body>
+
+</html>
